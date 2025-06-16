@@ -1,55 +1,5 @@
 [
   {
-    "stt": 1,
-    "ho_ten": "HOÀNG THỊ LÝ",
-    "ngay_sinh": null,
-    "so_cccd": 79164019622,
-    "noi_dang_ky_thuong_tru": "SỐ NHÀ 538 ĐƯỜNG HOÀNG HỮU NAM",
-    "noi_o_hien_nay": "SỐ NHÀ 538 ĐƯỜNG HOÀNG HỮU NAM",
-    "ghi_chu": null,
-    "gioi_tinh": "Nữ"
-  },
-  {
-    "stt": 2,
-    "ho_ten": "PHẠM NGỌC SINH",
-    "ngay_sinh": null,
-    "so_cccd": 79064001987,
-    "noi_dang_ky_thuong_tru": "39/2,NGUYỄN XIỂN, KP. CẦU ÔNG TÁN",
-    "noi_o_hien_nay": "39/2,NGUYỄN XIỂN, KP. CẦU ÔNG TÁN",
-    "ghi_chu": null,
-    "gioi_tinh": "Nam"
-  },
-  {
-    "stt": 3,
-    "ho_ten": "BÙI VĂN LỢI",
-    "ngay_sinh": "1964-09-18",
-    "so_cccd": 79064017357,
-    "noi_dang_ky_thuong_tru": "72/2/4, ĐƯỜNG 16",
-    "noi_o_hien_nay": "72/2/4, ĐƯỜNG 16",
-    "ghi_chu": null,
-    "gioi_tinh": "Nam"
-  },
-  {
-    "stt": 4,
-    "ho_ten": "NGUYỄN THỊ HỒNG",
-    "ngay_sinh": "1964-10-20",
-    "so_cccd": 79164018943,
-    "noi_dang_ky_thuong_tru": "1009,ĐƯỜNG NGUYỄN XIỂN",
-    "noi_o_hien_nay": "1009,ĐƯỜNG NGUYỄN XIỂN",
-    "ghi_chu": null,
-    "gioi_tinh": "Nữ"
-  },
-  {
-    "stt": 5,
-    "ho_ten": "HUỲNH VĂN NUÔI",
-    "ngay_sinh": "1964-07-15",
-    "so_cccd": 79064007407,
-    "noi_dang_ky_thuong_tru": "251/5P ĐƯỜNG 15, PHƯỜNG LONG BÌNH",
-    "noi_o_hien_nay": "251/5P ĐƯỜNG 15, PHƯỜNG LONG BÌNH",
-    "ghi_chu": null,
-    "gioi_tinh": "Nam"
-  },
-  {
     "stt": 6,
     "ho_ten": "NGUYỄN VĂN ĐOÀN",
     "ngay_sinh": null,

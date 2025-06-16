@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dio_config.dart';
 
 final submitSurvey =
-    FutureProvider.family<String, SurveyPostParams>((ref, param) async {
+    FutureProvider.family<dynamic, SurveyPostParams>((ref, param) async {
   Dio dio = ApiService().dio;
 
   // await Future.delayed(Duration(seconds: 3));

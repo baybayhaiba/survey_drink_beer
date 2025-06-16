@@ -40,12 +40,11 @@ class MyHomePage extends ConsumerStatefulWidget {
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
   List<Question> questions = [];
+  bool _isSubmittingAll = false;
 
   Future<void> _autoSubmit(User user) async {
     final notifier = ref.read(userProvider.notifier);
     notifier.setSubmitting(true);
-
-    return notifier.nextUser(); // Tự động chuyển sang user tiếp theo
 
     if (questions.isNotEmpty &&
         questions.every((q) => q.selectedAnswer != null)) {
@@ -79,26 +78,89 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       );
 
       try {
-        // final result = await ref.read(submitSurvey(surveyResults).future);
-        await Future.delayed(const Duration(seconds: 1));
+        // Gửi dữ liệu lên server
+        final _ = await ref.read(submitSurvey(surveyResults).future);
+        // await Future.delayed(const Duration(seconds: 1));
         notifier.setSubmitMessage("Submit thành công cho ${user.name}");
         notifier.nextUser(); // Tự động chuyển sang user tiếp theo
+
+        // Nếu đang trong quá trình submit tất cả và chưa phải người dùng cuối, tiếp tục submit
+        if (_isSubmittingAll &&
+            ref.read(userProvider).users.length >
+                ref.read(userProvider).currentUserIndex) {
+          // Thêm thời gian chờ nhỏ để tránh gửi quá nhanh
+          await Future.delayed(const Duration(milliseconds: 500));
+          _autoSubmit(ref.read(userProvider).currentUser);
+        } else if (_isSubmittingAll) {
+          // Đã hoàn thành toàn bộ danh sách
+          setState(() {
+            _isSubmittingAll = false;
+          });
+          notifier.setSubmitMessage(
+              "Đã hoàn thành gửi dữ liệu cho tất cả người dùng");
+        }
       } catch (e) {
         notifier.setSubmitMessage("Submit thất bại: $e");
+        // Dừng quá trình tự động nếu có lỗi
+        setState(() {
+          _isSubmittingAll = false;
+        });
       } finally {
         notifier.setSubmitting(false);
       }
     } else {
       notifier.setSubmitMessage("Chưa đủ thông tin để submit");
       notifier.setSubmitting(false);
+      // Dừng quá trình tự động nếu không đủ thông tin
+      setState(() {
+        _isSubmittingAll = false;
+      });
     }
+  }
+
+  // Phương thức mới để bắt đầu quá trình gửi dữ liệu cho tất cả người dùng
+  void _submitAllUsers() {
+    final appState = ref.read(userProvider);
+    if (appState.users.isEmpty) return;
+
+    setState(() {
+      _isSubmittingAll = true;
+    });
+
+    // Bắt đầu từ người dùng hiện tại
+    _autoSubmit(appState.currentUser);
   }
 
   @override
   Widget build(BuildContext context) {
     final appState = ref.watch(userProvider);
 
+    ref.listen(userProvider, (previous, next) {
+      if (previous?.submitMessage != next.submitMessage) {
+        print("hahahaha ===> ${next.submitMessage}");
+      }
+    });
+
     return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+        actions: [
+          // Thêm nút để gửi tất cả user
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: ElevatedButton(
+              onPressed: _isSubmittingAll ? null : _submitAllUsers,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+              ),
+              child: _isSubmittingAll
+                  ? const Text("Đang gửi...")
+                  : const Text("Gửi tất cả user"),
+            ),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [

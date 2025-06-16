@@ -38,6 +38,7 @@ dependencies:
   dio: ^5.7.0
   flutter_riverpod: ^2.6.1
   uuid: ^4.4.2
+  pretty_dio_logger: ^1.4.0
 
 
 dev_dependencies:

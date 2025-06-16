@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class ApiService {
   final Dio dio = Dio();
@@ -6,6 +7,16 @@ class ApiService {
 
   ApiService() {
     dio.options.baseUrl = _baseUrl;
+    dio.interceptors.add(PrettyDioLogger(
+      request: true,
+      requestBody: true,
+      requestHeader: true,
+      responseBody: true,
+      responseHeader: true,
+      enabled: true,
+      compact: true,
+      error: true,
+    ));
     dio.options.headers = {
       'Accept': '*/*',
       'Accept-Language': 'en-US,en;q=0.7',
