@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'app_state.dart';
 import 'user.dart';
+
 
 class ScreeningForm extends StatefulWidget {
   const ScreeningForm({super.key, this.user,this.onSubmit});
@@ -78,13 +81,44 @@ class _ScreeningFormState extends State<ScreeningForm> {
   }
 
   Widget _buildHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        _buildStep('1', 'Thông tin'),
-        _buildStep('2', 'Câu hỏi'),
-        _buildStep('3', 'Kết quả'),
-      ],
+
+    return Consumer(
+      builder: (context, ref, _) {
+        final appState = ref.watch(userProvider);
+        final currentIndex = appState.currentUserIndex + 1; // 1-based index
+        final totalUsers = appState.users.length;
+
+        return Column(
+          children: [
+            // User counter
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              margin: EdgeInsets.only(bottom: 16),
+              decoration: BoxDecoration(
+                color: Colors.blue.shade100,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                'Người dùng: $currentIndex/$totalUsers',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue.shade800,
+                ),
+              ),
+            ),
+            // Steps
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildStep('1', 'Thông tin'),
+                _buildStep('2', 'Câu hỏi'),
+                _buildStep('3', 'Kết quả'),
+              ],
+            ),
+          ],
+        );
+      },
     );
   }
 

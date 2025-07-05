@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pet_project/user.dart';
@@ -41,31 +42,35 @@ class UserNotifier extends StateNotifier<AppState> {
   }
 
   void _loadUsersFromJson() async {
-    final jsonString = await rootBundle.loadString('assets/users.json');
+    try {
+      final jsonString = await rootBundle.loadString('assets/users2.json');
 
-    final List<dynamic> jsonData = jsonDecode(jsonString);
-    final users = jsonData.map((data) {
-      final random = Random();
-      final year =
-          1960 + random.nextInt(46); // 1960 -> 2005 (2005 - 1960 + 1 = 46)
-      final month = 1 + random.nextInt(12); // 1 -> 12
-      final day =
-          1 + random.nextInt(28); // 1 -> 28 (để tránh lỗi ngày không hợp lệ)
-      final born = DateTime(year, month, day);
+      final List<dynamic> jsonData = jsonDecode(jsonString);
+      final users = jsonData.map((data) {
+        final random = Random();
+        final year =
+            1960 + random.nextInt(46); // 1960 -> 2005 (2005 - 1960 + 1 = 46)
+        final month = 1 + random.nextInt(12); // 1 -> 12
+        final day =
+            1 + random.nextInt(28); // 1 -> 28 (để tránh lỗi ngày không hợp lệ)
+        final born = DateTime(year, month, day);
 
-      return User(
-        name: data['ho_ten'],
-        dateOfBirth: data['ngay_sinh'] != null
-            ? DateTime.parse(data['ngay_sinh'])
-            : born,
-        gender: data['gioi_tinh'] == "Nam" ? "male" : "female",
-        phoneNumber: data['so_cccd'].toString(),
-        district: User.cities.first,
-        ward: User.wards.first,
-        address: data['noi_o_hien_nay'].toString(),
-      );
-    }).toList();
-    state = state.copyWith(users: users);
+        return User(
+          name: data['ten_doi_tuong'],
+          dateOfBirth: data['ngay_sinh'] != null
+              ? DateTime.tryParse(data['ngay_sinh']) ?? born
+              : born,
+          gender: data['gioi_tinh'] == "Nam" ? "male" : "female",
+          phoneNumber: data['so_dien_thoai'] != null ? '0${data['so_dien_thoai']}' :  data['so_cccd'] ?? '',
+          district: User.cities.first,
+          ward: User.wards.first,
+          address: data['dia_chi_ho_khau'] ?? '',
+        );
+      }).toList();
+      state = state.copyWith(users: users);
+    } catch (e) {
+      print('Failed to load users from JSON: $e');
+    }
   }
 
   void nextUser() {

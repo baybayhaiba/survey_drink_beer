@@ -28,7 +28,7 @@ class User {
 
 
           static List<String> get cities => ["Thành phố Thủ Đức"];
-          static List<String> get wards => ["Phường Long Bình"];
+          static List<String> get wards => ["Phường Trường Thạnh"];
 
   @override
   String toString() {

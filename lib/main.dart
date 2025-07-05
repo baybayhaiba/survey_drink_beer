@@ -89,7 +89,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             ref.read(userProvider).users.length >
                 ref.read(userProvider).currentUserIndex) {
           // Thêm thời gian chờ nhỏ để tránh gửi quá nhanh
-          await Future.delayed(const Duration(milliseconds: 500));
+          await Future.delayed(const Duration(milliseconds: 50));
           _autoSubmit(ref.read(userProvider).currentUser);
         } else if (_isSubmittingAll) {
           // Đã hoàn thành toàn bộ danh sách
